@@ -296,7 +296,7 @@
             if (filtered.lenght === 0) {
                 return {selectedGallery: gallery, activeCategoryId: "All"}
             }
-            return {selectedGallery: gallery, activeCategoryId: categoryId}
+            return {selectedGallery: filtered, activeCategoryId: categoryId}
         }
 
         function highlightCatergoryTab(categoryId) {
