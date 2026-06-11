@@ -299,17 +299,20 @@
                     {{#unless startFromFirstPage}}
                     <li>
                         <a href="blogs.html?page={{../prevPage}}&category={{../category}}"
-                            class="flex items-center justify-center text-fg-brand bg-neutral-tertiary-medium box-border border border-default-medium hover:text-fg-brand font-medium text-sm w-9 h-9 focus:outline-none active">{{page}}</a>
+                            class= "flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm w-9 h-9 focus:outline-none">
+                            <span class="sr-only">Previous</span>
+                            <svg class="w-4 h-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/></svg>
+                        </a>
                     </li>
-                    {{/Unless}}
+                    {{/unless}}
 
                     {{#each pages}}
                     {{#if isCurrent}}
                     <li>
-                        <a href="blogs.html?page={{page}}&category={{../../category}}"
+                        <a href="#" aria-current="page"
                             class="active flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-9 h-9 focus:outline-none">{{papge}}</a>
                     </li>
-                    {{if}}
+                    {{/if}}
 
                     {{#unless isCurrent}}
                     <li>
@@ -317,7 +320,7 @@
                             class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-9 h-9 focus:outline-none">{{page}}</a>
                     </li>                    
                     {{/unless}}
-                    {{each}}
+                    {{/each}}
                     
                     {{#unless endAtLastPage}}
                     <li>
@@ -359,8 +362,9 @@
     <script>
         (async function () {
             const params = new URLSearchParams(window.location.search);
-            const category = params.get("category");
-            const [categories, blogs] = await Promise.all([fetchCategoriesByType("blogs"), fetchBlogsByCategoryId(category)]);
+            const category = params.get("category") ?? "All";
+            const page = params.get("page") ?? 1;
+            const [categories, blogs] = await Promise.all([fetchCategoriesByType("blogs"), fetchBlogsByCategoryId(category, page)]);
 
             renderView("categories-template", "categories", categories);
             renderView("blogs-template", "blogs", blogs);
